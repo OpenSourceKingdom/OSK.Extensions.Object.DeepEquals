@@ -1,10 +1,9 @@
-﻿using OSK.Extensions.Object.DeepEquals.Options;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
 
 namespace OSK.Extensions.Object.DeepEquals.Ports
 {
-    // Primary Port: Implemented Internally
     public interface IDeepComparisonService
     {
-        bool AreDeepEqual(object objA, object objB, DeepComparisonOptions options);
+        bool AreDeepEqual<T, U>(DeepComparisonContext context, T objA, U objB);
     }
 }

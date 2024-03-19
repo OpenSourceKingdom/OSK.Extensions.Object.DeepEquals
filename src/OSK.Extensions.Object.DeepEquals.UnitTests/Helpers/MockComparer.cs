@@ -1,22 +1,22 @@
 ﻿using System;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
-using OSK.Extensions.Object.DeepEquals.Options;
+using OSK.Extensions.Object.DeepEquals.Models;
+using OSK.Extensions.Object.DeepEquals.Ports;
 
 namespace OSK.Extensions.Object.DeepEquals.UnitTests.Helpers
 {
-    public class MockComparer : DeepEqualityComparer
+    public class MockComparer : IDeepEqualityComparer
     {
         public Func<Type, bool> CanCompareFunc { get; set; }
-        public Func<object, object, DeepComparisonOptions, bool> EqualsFunc { get; set; }
+        public Func<DeepComparisonContext, object, object, bool> EqualsFunc { get; set; }
 
-        protected override bool IsComparerType(Type typeToCompare)
+        public bool CanCompare(Type typeToCompare)
         {
             return CanCompareFunc?.Invoke(typeToCompare) ?? true;
         }
 
-        protected override bool AreDeepEqual(object a, object b)
+        public bool AreDeepEqual(DeepComparisonContext context, object a, object b)
         {
-            return EqualsFunc?.Invoke(a, b, DeepComparisonOptions) ?? true;
+            return EqualsFunc?.Invoke(context, a, b) ?? true;
         }
     }
 }

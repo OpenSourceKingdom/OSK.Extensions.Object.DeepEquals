@@ -1,59 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OSK.Extensions.Object.DeepEquals.Options;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
 using OSK.Extensions.Object.DeepEquals.Ports;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Services
 {
     internal class DeepComparisonService : IDeepComparisonService
     {
-        #region IDeepComparisonService
+        #region Variables
 
-        public bool AreDeepEqual(object a, object b, DeepComparisonOptions comparisonOptions)
+        private readonly IDeepEqualityComparerProvider _comparerProvider;
+
+        #endregion
+
+        #region Constructors
+
+        public DeepComparisonService(IDeepEqualityComparerProvider comparerProvider)
         {
-            if (a == null && b == null)
-            {
-                return true;
-            }
-            if (a == null || b == null)
-            {
-                return false;
-            }
-            if (a.GetType() != b.GetType())
-            {
-                return false;
-            }
-            if (ReferenceEquals(a, b))
-            {
-                return true;
-            }
-            if (comparisonOptions == null)
-            {
-                throw new ArgumentNullException(nameof(comparisonOptions));
-            }
-            if (comparisonOptions.DeepEqualityComparers == null || !comparisonOptions.DeepEqualityComparers.Any())
-            {
-                throw new InvalidOperationException($"There were no comparers provided to use for comparing the objects.");
-            }
-            if (TryGetComparer(comparisonOptions.DeepEqualityComparers, a.GetType(), out var comparer))
-            {
-                return comparer.AreDeepEqual(a, b, comparisonOptions);
-            }
-
-            throw new InvalidOperationException($"There were no comparers able to compare objects of type {a.GetType().FullName}.");
+            _comparerProvider = comparerProvider;
         }
 
         #endregion
 
-        #region Helpers
+        #region IDeepComparisonService
 
-        private static bool TryGetComparer(IEnumerable<IDeepEqualityComparer> comparers, Type type,
-            out IDeepEqualityComparer comparer)
+        public bool AreDeepEqual<T, U>(DeepComparisonContext context, T objA, U objB)
         {
-            comparer = comparers.FirstOrDefault(deepEqualityComparer => deepEqualityComparer.CanCompare(type));
+            if (ReferenceEquals(objA, objB))
+            {
+                return true;
+            }
+            if (!(objB is T ut) || !(objA is U _))
+            {
+                return false;
+            }
+            if (objA == null || objB == null)
+            {
+                return false;
+            }
 
-            return comparer != null;
+            if (_comparerProvider.TryGetEqualityComparerOrFallback<T>(objA, out var comparer))
+            {
+                return ((IDeepEqualityComparer<T>)comparer).AreDeepEqual(context, objA, ut);
+            }
+
+            return comparer.AreDeepEqual(context, objA, ut);
         }
 
         #endregion

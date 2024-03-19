@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
-using OSK.Extensions.Object.DeepEquals.Options;
-using OSK.Extensions.Object.DeepEquals.Ports;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
@@ -32,7 +30,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         [InlineData(typeof(Dictionary<IEnumerable<long>, Dictionary<long, string>>), true)]
         [InlineData(typeof(List<>), false)]
         [InlineData(typeof(int), false)]
-        public void IsComparerType_TypeVariations_ReturnsExpectedResult(Type type, bool expectedResult)
+        public void CanCompare_TypeVariations_ReturnsExpectedResult(Type type, bool expectedResult)
         {
             // Arrange/Act
             var result = _comparer.CanCompare(type);
@@ -59,7 +57,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 { "Key2", "Value2" }
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -68,7 +66,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             });
 
             // Act
-            var result = _comparer.AreDeepEqual(dictionaryA, dictionaryB, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(context, dictionaryA, dictionaryB);
 
             // Assert
             Assert.False(result);
@@ -89,7 +87,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 { "KeyB", "Value2" }
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -98,7 +96,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             });
 
             // Act
-            var result = _comparer.AreDeepEqual(dictionaryA, dictionaryB, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(context, dictionaryA, dictionaryB);
 
             // Assert
             Assert.False(result);
@@ -119,7 +117,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 { "Key2", "ValueB" }
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -128,7 +126,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             });
 
             // Act
-            var result = _comparer.AreDeepEqual(dictionaryA, dictionaryB, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(context, dictionaryA, dictionaryB);
 
             // Assert
             Assert.False(result);
@@ -149,7 +147,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 { "Key2", "Value2" }
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -158,7 +156,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             });
 
             // Act
-            var result = _comparer.AreDeepEqual(dictionaryA, dictionaryB, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(context, dictionaryA, dictionaryB);
 
             // Assert
             Assert.True(result);

@@ -4,7 +4,6 @@ using System.Linq;
 using Moq;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
 using OSK.Extensions.Object.DeepEquals.Options;
-using OSK.Extensions.Object.DeepEquals.Ports;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
@@ -54,7 +53,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_ClassesWithEqualProperties_ReturnsTrue()
         {
             // Arrange
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((c, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -71,7 +70,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(c, testClass, b);
                     default:
                         return false;
                 }
@@ -113,7 +112,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             };
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(context, testA, testB);
 
             // Assert
             Assert.True(result);
@@ -123,7 +122,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_ClassesWithDifferentPropertyValues_ReturnsFalse()
         {
             // Arrange
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((c, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -140,7 +139,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(c, testClass, b);
                     default:
                         return false;
                 }
@@ -182,7 +181,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             };
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(context, testA, testB);
 
             // Assert
             Assert.False(result);
@@ -192,7 +191,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_StructsWithEqualProperties_ReturnsTrue()
         {
             // Arrange
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((con, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -209,10 +208,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<long>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(con, testClass, b);
                     case MockStruct mockStruct:
                         var c = (MockStruct)objB;
-                        return _propertyComparer.AreDeepEqual(mockStruct, c, options);
+                        return _propertyComparer.AreDeepEqual(con, mockStruct, c);
                     default:
                         return false;
                 }
@@ -254,7 +253,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             };
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(MockComparisonContext.SetupContext(), testA, testB);
 
             // Assert
             Assert.True(result);
@@ -264,7 +263,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_StructsWithDifferentPropertyValues_ReturnsFalse()
         {
             // Arrange
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((con, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -281,10 +280,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(con, testClass, b);
                     case MockStruct mockStruct:
                         var c = (MockStruct)objB;
-                        return _propertyComparer.AreDeepEqual(mockStruct, c, options);
+                        return _propertyComparer.AreDeepEqual(con, mockStruct, c);
                     default:
                         return false;
                 }
@@ -326,7 +325,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             };
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(context, testA, testB);
 
             // Assert
             Assert.False(result);
@@ -371,7 +370,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 }
             };
 
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((con, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -388,10 +387,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(con, testClass, b);
                     case MockStruct mockStruct:
                         var c = (MockStruct)objB;
-                        return _propertyComparer.AreDeepEqual(mockStruct, c, options);
+                        return _propertyComparer.AreDeepEqual(con, mockStruct, c);
                     default:
                         return false;
                 }
@@ -405,7 +404,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 .Returns(false);
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(context, testA, testB);
 
             // Assert
             Assert.False(result);
@@ -450,7 +449,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 }
             };
 
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((con, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -467,10 +466,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(con, testClass, b);
                     case MockStruct mockStruct:
                         var c = (MockStruct)objB;
-                        return _propertyComparer.AreDeepEqual(mockStruct, c, options);
+                        return _propertyComparer.AreDeepEqual(con, mockStruct, c);
                     default:
                         return false;
                 }
@@ -488,7 +487,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 .Returns(true);
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(context, testA, testB);
 
             // Assert
             Assert.False(result);
@@ -524,7 +523,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             };
             testB.SubClass = testB;
 
-            MockComparerTestSetup.SetupComparer(_propertyComparer, (objA, objB, options) =>
+            var context = MockComparisonContext.SetupContext((con, objA, objB) =>
             {
                 if (objA == null)
                 {
@@ -541,10 +540,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                         return list.SequenceEqual((List<int>)objB);
                     case TestClass testClass:
                         var b = (TestClass)objB;
-                        return _propertyComparer.AreDeepEqual(testClass, b, options);
+                        return _propertyComparer.AreDeepEqual(con, testClass, b);
                     case MockStruct mockStruct:
                         var c = (MockStruct)objB;
-                        return _propertyComparer.AreDeepEqual(mockStruct, c, options);
+                        return _propertyComparer.AreDeepEqual(con, mockStruct, c);
                     default:
                         return false;
                 }
@@ -562,7 +561,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 .Returns(true);
 
             // Act
-            var result = _propertyComparer.AreDeepEqual(testA, testB, new DeepComparisonOptions());
+            var result = _propertyComparer.AreDeepEqual(MockComparisonContext.SetupContext(), testA, testB);
 
             // Assert
             Assert.True(result);

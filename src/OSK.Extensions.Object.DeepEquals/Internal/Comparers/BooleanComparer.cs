@@ -1,16 +1,12 @@
-﻿using OSK.Extensions.Object.DeepEquals.Abstracts;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 {
-    internal class BooleanComparer : TypedDeepEqualityComparer<bool>
+    internal class BooleanComparer : DeepEqualityComparer<bool>
     {
-        #region TypedDeepEqualityComparer Overrides
-
-        protected override bool AreDeepEqual(bool a, bool b)
+        public override bool AreDeepEqual(DeepComparisonContext context, bool a, bool b)
         {
             return a == b;
         }
-
-        #endregion
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using OSK.Extensions.Object.DeepEquals.Internal.Services;
-using OSK.Extensions.Object.DeepEquals.Ports;
 using Xunit;
 
 namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Services

@@ -1,17 +1,13 @@
 ﻿using System;
 using OSK.Extensions.Object.DeepEquals.Models;
-using OSK.Extensions.Object.DeepEquals.Options;
 
 namespace OSK.Extensions.Object.DeepEquals.Ports
 {
     /// <summary>
     /// A comparer capable of performing a deep comparison between objects
     /// </summary>
-    // Primary Port: Implemented Internally
     public interface IDeepEqualityComparer
     {
-        void SetConfiguration(ComparerConfiguration configuration);
-
         /// <summary>
         /// Determines whether the comparer can handle comparing objects of a given type
         /// </summary>
@@ -22,10 +18,10 @@ namespace OSK.Extensions.Object.DeepEquals.Ports
         /// <summary>
         /// Performs a deep comparison on the given objects. Objects passed are expected to comply with the types the comparer <see cref="CanCompare"/>
         /// </summary>
+        /// <param name="context">The context of the current deep comparison</param>
         /// <param name="a">The first object to compare</param>
         /// <param name="b">The second object to compare against <see cref="a"/></param>
-        /// <param name="deepComparisonOptions">The options to use for specific type comparisons</param>
         /// <returns>True/False for whether a deeply equals b</returns>
-        bool AreDeepEqual(object a, object b, DeepComparisonOptions deepComparisonOptions);
+        bool AreDeepEqual(DeepComparisonContext context, object a, object b);
     }
 }

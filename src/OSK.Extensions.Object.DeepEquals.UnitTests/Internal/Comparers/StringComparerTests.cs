@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Options;
 using OSK.Extensions.Object.DeepEquals.Ports;
+using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
 namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
@@ -55,13 +56,11 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_CaseSensitive_StringVariations_ReturnsExpectedResult(string a, string b, bool expectedResult)
         {
             // Arrange
-            var options = new DeepComparisonOptions()
-            {
-                IgnoreCaseSensitivity = false
-            };
+            var context = MockComparisonContext.SetupContext();
+            context.StringComparisonOptions.StringComparison = StringComparison.Ordinal;
 
             // Act
-            var result = _comparer.AreDeepEqual(a, b, options);
+            var result = _comparer.AreDeepEqual(context, a, b);
 
             // Assert
             Assert.Equal(expectedResult, result);
@@ -77,13 +76,11 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_CaseInsensitive_StringVariations_ReturnsExpectedResult(string a, string b, bool expectedResult)
         {
             // Arrange
-            var options = new DeepComparisonOptions()
-            {
-                IgnoreCaseSensitivity = true
-            };
+            var context = MockComparisonContext.SetupContext();
+            context.StringComparisonOptions.StringComparison = StringComparison.InvariantCultureIgnoreCase;
 
             // Act
-            var result = _comparer.AreDeepEqual(a, b, options);
+            var result = _comparer.AreDeepEqual(context, a, b);
 
             // Assert
             Assert.Equal(expectedResult, result);

@@ -1,19 +1,21 @@
-﻿using System;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
+using System;
 using System.Collections;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 {
-    internal class DictionaryComparer : TypedDeepEqualityComparer<IDictionary>
+    internal class DictionaryComparer : DeepEqualityComparer<IDictionary>
     {
-        #region TypedDeepEqualityComparer
+        private static readonly Type DictionaryType = typeof(IDictionary);
 
-        protected override bool IsComparerType(Type type)
+        #region DeepEqualityComparer
+
+        public override bool CanCompare(Type typeToCompare)
         {
-            return typeof(IDictionary).IsAssignableFrom(type);
+            return DictionaryType.IsAssignableFrom(typeToCompare);
         }
 
-        protected override bool AreDeepEqual(IDictionary a, IDictionary b)
+        public override bool AreDeepEqual(DeepComparisonContext context, IDictionary a, IDictionary b)
         {
             if (a.Keys.Count != b.Keys.Count)
             {
@@ -22,7 +24,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 
             foreach (var key in a.Keys)
             {
-                if (b.Contains(key) && DeepComparisonService.AreDeepEqual(a[key], b[key], DeepComparisonOptions))
+                if (b.Contains(key) && context.DeepComparisonService.AreDeepEqual(context, a[key], b[key]))
                 {
                     continue;
                 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using OSK.Extensions.Object.DeepEquals.Internal.Services;
 using OSK.Extensions.Object.DeepEquals.Models;
-using OSK.Extensions.Object.DeepEquals.Ports;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
 using OSK.Extensions.Object.DeepEquals.Options;
-using OSK.Extensions.Object.DeepEquals.Ports;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
@@ -65,7 +64,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 "World"
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -73,13 +72,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return s1.Equals(s2, StringComparison.OrdinalIgnoreCase);
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = true
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = true;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);
@@ -104,7 +100,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 "Amazing"
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -112,13 +108,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return s1.Equals(s2, StringComparison.OrdinalIgnoreCase);
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = true
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = true;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.False(result);
@@ -143,7 +136,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 7
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var int1 = (int)objA;
                 var int2 = (int)objB;
@@ -151,13 +144,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return int1 == int2;
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = true
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = true;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);
@@ -182,7 +172,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 3
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var int1 = (int)objA;
                 var int2 = (int)objB;
@@ -190,13 +180,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return int1 == int2;
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = true
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = true;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.False(result);
@@ -221,7 +208,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 "World"
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -229,13 +216,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return s1.Equals(s2, StringComparison.OrdinalIgnoreCase);
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = false
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);
@@ -260,7 +244,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 "Amazing"
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -268,13 +252,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return s1.Equals(s2, StringComparison.OrdinalIgnoreCase);
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = false
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);
@@ -299,7 +280,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 "Awaits"
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var s1 = (string)objA;
                 var s2 = (string)objB;
@@ -307,13 +288,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return s1.Equals(s2, StringComparison.OrdinalIgnoreCase);
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = false
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.False(result);
@@ -339,7 +317,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 7
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var int1 = (int)objA;
                 var int2 = (int)objB;
@@ -347,13 +325,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return int1 == int2;
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = false
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);
@@ -378,7 +353,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 3
             };
 
-            MockComparerTestSetup.SetupComparer(_comparer, (objA, objB, _) =>
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
             {
                 var int1 = (int)objA;
                 var int2 = (int)objB;
@@ -386,13 +361,10 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                 return int1 == int2;
             });
 
-            var options = new DeepComparisonOptions()
-            {
-                EnforceEnumerableOrdering = false
-            };
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
 
             // Act
-            var result = _comparer.AreDeepEqual(testSet1, testSet2, options);
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
 
             // Assert
             Assert.True(result);

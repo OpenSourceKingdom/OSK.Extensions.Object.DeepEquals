@@ -1,19 +1,14 @@
-﻿using System;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 {
-    internal class StringComparer : TypedDeepEqualityComparer<string>
+    internal class StringComparer : DeepEqualityComparer<string>
     {
-        #region TypedDeepEqualityComparer Overrides
+        #region DeepEqualityComparer Overrides
 
-        protected override bool AreDeepEqual(string a, string b)
+        public override bool AreDeepEqual(DeepComparisonContext context, string a, string b)
         {
-            var comparisonRule = DeepComparisonOptions.IgnoreCaseSensitivity
-                ? StringComparison.InvariantCultureIgnoreCase
-                : StringComparison.InvariantCulture;
-
-            return a.Equals(b, comparisonRule);
+            return string.Equals(a, b, context.StringComparisonOptions.StringComparison);
         }
 
         #endregion

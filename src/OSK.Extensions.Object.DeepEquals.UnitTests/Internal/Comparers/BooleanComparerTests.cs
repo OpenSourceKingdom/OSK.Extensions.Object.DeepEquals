@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
-using OSK.Extensions.Object.DeepEquals.Options;
-using OSK.Extensions.Object.DeepEquals.Ports;
+using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
 namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
@@ -56,7 +55,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         public void AreDeepEqual_BooleanVariations_ReturnsExpectedResult(bool a, bool b)
         {
             // Arrange/Act
-            var result = _comparer.AreDeepEqual(a, b, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(MockComparisonContext.SetupContext(), a, b);
 
             // Assert
             Assert.Equal(a == b, result);

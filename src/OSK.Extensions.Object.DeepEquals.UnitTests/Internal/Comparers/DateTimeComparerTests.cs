@@ -2,25 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
-using OSK.Extensions.Object.DeepEquals.Options;
-using OSK.Extensions.Object.DeepEquals.Ports;
+using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
 namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
 {
-    public class DateComparerTests
+    public class DateTimeComparerTests
     {
         #region Variables
 
-        private readonly DateComparer _comparer;
+        private readonly DateTimeComparer _comparer;
 
         #endregion
 
         #region Constructors
 
-        public DateComparerTests()
+        public DateTimeComparerTests()
         {
-            _comparer = new DateComparer();
+            _comparer = new DateTimeComparer();
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             var dateB = DateTime.Parse(b);
 
             // Act
-            var result = _comparer.AreDeepEqual(dateA, dateB, new DeepComparisonOptions());
+            var result = _comparer.AreDeepEqual(MockComparisonContext.SetupContext(), dateA, dateB);
 
             // Assert
             Assert.Equal(expectedResult, result);

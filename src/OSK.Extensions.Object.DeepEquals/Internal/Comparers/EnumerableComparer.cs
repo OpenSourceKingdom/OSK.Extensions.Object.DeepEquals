@@ -1,30 +1,32 @@
-﻿using System;
+﻿using OSK.Extensions.Object.DeepEquals.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 {
-    internal class EnumerableComparer : TypedDeepEqualityComparer<IEnumerable>
+    internal class EnumerableComparer : DeepEqualityComparer<IEnumerable>
     {
-        #region TypedDeepEqualityComparer
+        #region DeepEqualityComparer
 
-        protected override bool IsComparerType(Type type)
+        public override bool CanCompare(Type typeToCompare)
         {
-            return typeof(IEnumerable).IsAssignableFrom(type);
+            return typeof(IEnumerable).IsAssignableFrom(typeToCompare);
         }
 
-        protected override bool AreDeepEqual(IEnumerable a, IEnumerable b)
+        public override bool AreDeepEqual(DeepComparisonContext context, IEnumerable a, IEnumerable b)
         {
-            return DeepComparisonOptions.EnforceEnumerableOrdering ? CompareOrder(a, b) : CompareItems(a, b);
+            return context.EnumerableComparisonOptions.EnforceEnumerableOrdering 
+                ? CompareOrder(context, a, b) 
+                : CompareItems(context, a, b);
         }
 
         #endregion
 
         #region Helpers
 
-        private bool CompareOrder(IEnumerable a, IEnumerable b)
+        private bool CompareOrder(DeepComparisonContext context, IEnumerable a, IEnumerable b)
         {
             var enumeratorA = a.GetEnumerator();
             var enumeratorB = b.GetEnumerator();
@@ -35,7 +37,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 
             while (areEqual && aHasValue)
             {
-                areEqual = DeepComparisonService.AreDeepEqual(enumeratorA.Current, enumeratorB.Current, DeepComparisonOptions);
+                areEqual = context.DeepComparisonService.AreDeepEqual(context, enumeratorA.Current, enumeratorB.Current);
 
                 if (areEqual)
                 {
@@ -51,7 +53,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
             return areEqual;
         }
 
-        private bool CompareItems(IEnumerable a, IEnumerable b)
+        private bool CompareItems(DeepComparisonContext context, IEnumerable a, IEnumerable b)
         {
             var enumeratorA = a.GetEnumerator();
 
@@ -69,7 +71,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
             {
                 bSize++;
 
-                if (tempList.Any(item => DeepComparisonService.AreDeepEqual(item, enumeratorB.Current, DeepComparisonOptions)))
+                if (tempList.Any(item => context.DeepComparisonService.AreDeepEqual(context, item, enumeratorB.Current)))
                 {
                     continue;
                 }

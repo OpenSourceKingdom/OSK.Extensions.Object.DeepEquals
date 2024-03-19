@@ -1,42 +1,47 @@
 ﻿using System;
 using System.Linq;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
+using OSK.Extensions.Object.DeepEquals.Models;
+using OSK.Extensions.Object.DeepEquals.Ports;
 
 namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 {
-    internal class PropertyComparer : DeepEqualityComparer
+    internal class PropertyComparer : IPropertyComparer
     {
         #region DeepEqualityComparer
 
-        protected override bool IsComparerType(Type type)
+        public bool CanCompare(Type type)
         {
             return type.IsClass || type.IsValueType && !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System.");
         }
 
-        protected override bool AreDeepEqual(object a, object b)
+        public bool AreDeepEqual(DeepComparisonContext context, object a, object b)
         {
-            ObjectCache.Add(a, b);
-
-            var properties = PropertyCache.GetPropertyInfos(a.GetType(), DeepComparisonOptions.PropertyComparison);
-
+            context.ObjectCache.Add(a, b);
+            var properties = context.PropertyCache.GetPropertyInfos(a.GetType(), context.PropertyComparisonOptions.PropertyComparison);
             return properties.All(property =>
             {
                 var valueA = property.GetValue(a);
                 var valueB = property.GetValue(b);
 
-                var isACircular = CircularReferenceMonitor.AddReference(a, valueA);
-                var isBCircular = CircularReferenceMonitor.AddReference(b, valueB);
+                var isACircular = context.CircularReferenceMonitor.AddReference(a, valueA);
+                var isBCircular = context.CircularReferenceMonitor.AddReference(b, valueB);
 
                 if (isACircular && isBCircular)
                 {
-                    return ObjectCache.TryGet(valueA, out var originalB) && ReferenceEquals(originalB, valueB);
+                    return context.ObjectCache.TryGet(valueA, out var originalB) && ReferenceEquals(originalB, valueB);
                 }
                 if (isACircular || isBCircular)
                 {
                     return false;
                 }
 
-                return DeepComparisonService.AreDeepEqual(valueA, valueB, DeepComparisonOptions);
+                var result = context.DeepComparisonService.AreDeepEqual(context, valueA, valueB);
+                if (!result)
+                {
+                    context.Fail($"Property {property.Name}, type {property.PropertyType.FullName} was not equal. Value A: {valueA} Value B: {valueB}.");
+                }
+
+                return result;
             });
         }
 

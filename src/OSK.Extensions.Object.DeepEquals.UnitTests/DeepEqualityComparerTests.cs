@@ -1,12 +1,10 @@
-﻿using System;
-using Moq;
-using OSK.Extensions.Object.DeepEquals.Abstracts;
-using OSK.Extensions.Object.DeepEquals.Options;
+﻿using Moq;
+using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 
-namespace OSK.Extensions.Object.DeepEquals.UnitTests.Abstracts
+namespace OSK.Extensions.Object.DeepEquals.UnitTests
 {
-    public class TypedDeepEqualityComparerTests
+    public class DeepEqualityComparerTests
     {
         #region IsComparerType
 
@@ -41,13 +39,18 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Abstracts
         #region AreDeepEqual
 
         [Fact]
-        public void AreDeepEqual_ObjectsNotOfComparerType_ThrowsInvalidOperationException()
+        public void AreDeepEqual_ObjectsNotOfComparerType_ReturnsFalse(
+            )
         {
             // Arrange
             var comparer = CreateComparer<int>();
+            var context = MockComparisonContext.SetupContext();
 
-            // Act/Assert
-            Assert.Throws<InvalidOperationException>(() => comparer.AreDeepEqual("Test", "test", new DeepComparisonOptions()));
+            // Act
+            var result = comparer.AreDeepEqual(context, "Test", "test");
+
+            // Assert
+            Assert.False(result);
         }
 
         [Fact]
@@ -57,7 +60,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Abstracts
             var comparer = CreateComparer<int>();
 
             // Act
-            comparer.AreDeepEqual(1, 2, new DeepComparisonOptions());
+            comparer.AreDeepEqual(MockComparisonContext.SetupContext(), 1, 2);
 
             // Assert
             Assert.True(true);
@@ -67,9 +70,9 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Abstracts
 
         #region Helpers
 
-        private TypedDeepEqualityComparer<TType> CreateComparer<TType>()
+        private DeepEqualityComparer<TType> CreateComparer<TType>()
         {
-            var typedEqualityComparer = new Mock<TypedDeepEqualityComparer<TType>>()
+            var typedEqualityComparer = new Mock<DeepEqualityComparer<TType>>()
             {
                 CallBase = true
             };

@@ -31,6 +31,7 @@ namespace OSK.Extensions.Object.DeepEquals.Benchmark
         public void AreDeepEqual_BenchmarkTesting()
         {
             // Arrange
+
             var stopWatch = new Stopwatch();
             var testCount = 1000;
             var iterationsPerTest = 1000;
