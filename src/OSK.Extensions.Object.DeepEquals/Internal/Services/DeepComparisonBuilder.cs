@@ -15,7 +15,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
         private Action<StringComparisonOptions> _customStringOptions;
         private Action<EnumerableComparisonOptions> _customEnumerableOptions;
         private Action<PropertyComparisonOptions> _customPropertyOptions;
-        private Action<ValidationOptions> _customValidationOptions;
+        private Action<ExecutionOptions> _customExecutionOptions;
         private Dictionary<Type, IDeepEqualityComparer> _comparers;
 
         #endregion
@@ -59,9 +59,9 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
             return this;
         }
 
-        public IDeepComparisonBuilder WithValidationOptions(Action<ValidationOptions> options)
+        public IDeepComparisonBuilder WithExecutionOptions(Action<ExecutionOptions> options)
         {
-            _customValidationOptions = options;
+            _customExecutionOptions = options;
             return this;
         }
 
@@ -74,34 +74,47 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
             return new DeepComparisonContext(context.PropertyCache, context.ObjectCache,
                 new CircularReferenceMonitor(), context.DeepComparisonService,
                 context.StringComparisonOptions, context.EnumerableComparisonOptions,
-                context.PropertyComparisonOptions, context.ValidationOptions);
+                context.PropertyComparisonOptions, context.ExecutionOptions);
         }
 
-        internal DeepComparisonContext Build()
+        internal DeepComparisonContext Build(DeepComparisonContext previousContext)
         {
             AddDeepDefaultComparers();
 
+            var executionOptions = GetExecutionOptions();
+            var preserveCache = previousContext != null && executionOptions.PreserveCacheBetweenConfigurationChanges;
+            var propertyCache = preserveCache
+                ? previousContext.PropertyCache
+                : new PropertyCache();
+            var objectCache = preserveCache
+                ? previousContext.ObjectCache
+                : new ObjectCache();
+            var comparisonService = preserveCache
+                ? previousContext.DeepComparisonService
+                : new DeepComparisonService(new DeepEqualityComparerProvider(_comparers));
+
+
             return new DeepComparisonContext(
-                new PropertyCache(),
-                new ObjectCache(),
+                propertyCache,
+                objectCache,
                 new CircularReferenceMonitor(),
-                new DeepComparisonService(new DeepEqualityComparerProvider(_comparers)),
+                comparisonService,
                 GetStringComparisonOptions(),
                 GetEnumerableComparisonOptions(),
                 GetPropertyComparisonOptions(),
-                GetValidationOptions()
+                executionOptions
                 );
         }
 
-        private ValidationOptions GetValidationOptions()
+        private ExecutionOptions GetExecutionOptions()
         {
-            var validationOptions = new ValidationOptions()
+            var validationOptions = new ExecutionOptions()
             {
                 ThrowOnFailure = false
             };
-            if (_customValidationOptions != null )
+            if (_customExecutionOptions != null )
             {
-                _customValidationOptions(validationOptions);
+                _customExecutionOptions(validationOptions);
             }
 
             return validationOptions;

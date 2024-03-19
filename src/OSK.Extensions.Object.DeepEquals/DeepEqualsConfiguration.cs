@@ -32,7 +32,7 @@ namespace OSK.Extensions.Object.DeepEquals
                     _customConfiguration(deepComparisonBuilder);
                 }
                 
-                _comparisonContext = deepComparisonBuilder.Build();
+                _comparisonContext = deepComparisonBuilder.Build(_comparisonContext);
             }
             else
             {

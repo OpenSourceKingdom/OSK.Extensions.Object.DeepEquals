@@ -13,7 +13,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         public PropertyComparisonOptions PropertyComparisonOptions { get; }
 
-        public ValidationOptions ValidationOptions { get; }
+        public ExecutionOptions ExecutionOptions { get; }
 
         public IPropertyCache PropertyCache { get; }
 
@@ -30,7 +30,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
         public DeepComparisonContext(IPropertyCache propertyCache, IObjectCache objectCache,
             ICircularReferenceMonitor circularReferenceMonitor, IDeepComparisonService deepComparisonService,
             StringComparisonOptions stringComparisonOptions, EnumerableComparisonOptions enumerableComparisonOptions,
-            PropertyComparisonOptions propertyComparisonOptions, ValidationOptions validationOptions)
+            PropertyComparisonOptions propertyComparisonOptions, ExecutionOptions validationOptions)
         {
             PropertyCache = propertyCache;
             ObjectCache = objectCache;
@@ -39,7 +39,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
             StringComparisonOptions = stringComparisonOptions;
             EnumerableComparisonOptions = enumerableComparisonOptions;
             PropertyComparisonOptions = propertyComparisonOptions;
-            ValidationOptions = validationOptions;
+            ExecutionOptions = validationOptions;
         }
 
         #endregion
@@ -48,7 +48,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         public void Fail(string message)
         {
-            if (ValidationOptions.ThrowOnFailure)
+            if (ExecutionOptions.ThrowOnFailure)
             {
                 throw new DeepEqualityComparisonFailedException(message);
             }

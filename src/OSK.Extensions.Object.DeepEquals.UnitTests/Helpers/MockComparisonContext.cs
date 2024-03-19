@@ -36,7 +36,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Helpers
             return new DeepComparisonContext(mockPropertyCache.Object, mockObjectCache.Object,
                 mockCircularRefMonitor.Object, mockComparisonService.Object,
                 new StringComparisonOptions(), new EnumerableComparisonOptions(),
-                new PropertyComparisonOptions(), new ValidationOptions());
+                new PropertyComparisonOptions(), new ExecutionOptions());
         }
 
     }

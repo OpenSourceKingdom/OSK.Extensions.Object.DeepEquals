@@ -4,8 +4,10 @@ using System.Text;
 
 namespace OSK.Extensions.Object.DeepEquals.Options
 {
-    public class ValidationOptions
+    public class ExecutionOptions
     {
+        public bool PreserveCacheBetweenConfigurationChanges { get; set; }
+
         public bool ThrowOnFailure { get; set; }
     }
 }

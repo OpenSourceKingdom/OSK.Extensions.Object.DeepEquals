@@ -13,6 +13,6 @@ namespace OSK.Extensions.Object.DeepEquals.Ports
 
         IDeepComparisonBuilder WithPropertyComparisonOptions(Action<PropertyComparisonOptions> options);
 
-        IDeepComparisonBuilder WithValidationOptions(Action<ValidationOptions> options);
+        IDeepComparisonBuilder WithExecutionOptions(Action<ExecutionOptions> options);
     }
 }
