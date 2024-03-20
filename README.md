@@ -1,2 +1,4 @@
 # OSK.Extensions.Object.DeepEquals
-Open Source Kingdom Object Extensions for Deep Comparisons
+Provides deep comparison for objects with the ability to extend its capability for any situation
+
+Please see other projects within the OSK Community

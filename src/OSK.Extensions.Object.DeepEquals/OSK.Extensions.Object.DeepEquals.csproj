@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+
+		<RepositoryUrl>https://github.com/OpenSourceKingdom/OSK.Extensions.Object.DeepEquals</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<Description>DeepEquals is a fast, flexible, and simple way of comparing objects deeply.</Description>
+		<PackageTags>OpenSourceKingdom, OpenSource, DeepEquals, Deep, Equals, Comparison, Compare, Equivalence, Equality, Extensions, Object</PackageTags>
+		<Authors>BlankDev117</Authors>
+		<Title>DeepEquals</Title>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+</Project>
