@@ -1,4 +1,4 @@
-name: .NET CD Automation
+name: .NET Test Automation
 
 on:
   push:

@@ -3,12 +3,16 @@ name: Attach Issue Link
 on:
   pull_request:
     branches: [ main ]
+    
+permissions:
+  contents: read
+  pull-requests: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: tzkhan/pr-update-action@v2
+    - uses: the-wright-jamie/update-pr-info-action@v1
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         head-branch-regex: '\d+'
