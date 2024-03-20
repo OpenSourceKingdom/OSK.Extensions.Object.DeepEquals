@@ -94,7 +94,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Services
                 .Returns(true);
 
             _mockComparerProvider.Setup(m => m.TryGetEqualityComparerOrFallback<MockStruct>(
-                It.IsAny<Type>(), out It.Ref<IDeepEqualityComparer>.IsAny))
+                It.IsAny<object>(), out It.Ref<IDeepEqualityComparer>.IsAny))
                 .Callback(new ComparerFallbackCallbackDelegate((object o, ref IDeepEqualityComparer callBack) =>
                 {
                     callBack = mockComparer.Object;
