@@ -6,32 +6,45 @@ using System;
 
 namespace OSK.Extensions.Object.DeepEquals
 {
+    /// <summary>
+    /// A configuration class that can be used to modify, enhance, and ultimately adjust how deep comparison is
+    /// handled within equality checks   
+    /// </summary>
     public static class DeepEqualsConfiguration
     {
+        #region Variables
+
         private static DeepComparisonContext _comparisonContext;
         private static Action<IDeepComparisonBuilder> _customConfiguration;
-        public static Action<IDeepComparisonBuilder> AdditionalConfiguration
+
+        #endregion
+
+        #region Helpers
+
+        /// <summary>
+        /// A custom configuration action that will set the global configuration for Deep Equality comparisons
+        /// </summary>
+        public static Action<IDeepComparisonBuilder> CustomConfiguration
         {
-            get => _customConfiguration;    
+            get => _customConfiguration;
             set
             {
-                _comparisonContext = null;
                 _customConfiguration = value;
+                _comparisonContext = null;
             }
         }
-        
+
         internal static DeepComparisonContext GetComparisonContext(DeepComparisonOptions optionOverrides = null)
         {
             var deepComparisonBuilder = new DeepComparisonBuilder();
-
             if (_comparisonContext == null || optionOverrides != null)
             {
-                deepComparisonBuilder.ApplyOptionOverrides(optionOverrides);
                 if (_customConfiguration != null)
                 {
                     _customConfiguration(deepComparisonBuilder);
                 }
-                
+
+                deepComparisonBuilder.ApplyOptionOverrides(optionOverrides);
                 _comparisonContext = deepComparisonBuilder.Build(_comparisonContext);
             }
             else
@@ -69,11 +82,8 @@ namespace OSK.Extensions.Object.DeepEquals
                     o.StringComparison = options.StringComparison.Value;
                 });
             }
-
-            foreach (var customComparer in options.CustomEqualityComparers)
-            {
-               // builder.WithComparer(customComparer);
-            }
         }
+
+        #endregion
     }
 }

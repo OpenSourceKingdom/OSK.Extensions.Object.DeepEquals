@@ -37,7 +37,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 
             while (areEqual && aHasValue)
             {
-                areEqual = context.DeepComparisonService.AreDeepEqual(context, enumeratorA.Current, enumeratorB.Current);
+                areEqual = context.AreDeepEqual(enumeratorA.Current, enumeratorB.Current);
 
                 if (areEqual)
                 {
@@ -71,7 +71,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
             {
                 bSize++;
 
-                if (tempList.Any(item => context.DeepComparisonService.AreDeepEqual(context, item, enumeratorB.Current)))
+                if (tempList.Any(item => context.AreDeepEqual(item, enumeratorB.Current)))
                 {
                     continue;
                 }

@@ -35,7 +35,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
                     return false;
                 }
 
-                var result = context.DeepComparisonService.AreDeepEqual(context, valueA, valueB);
+                var result = context.AreDeepEqual(valueA, valueB);
                 if (!result)
                 {
                     context.Fail($"Property {property.Name}, type {property.PropertyType.FullName} was not equal. Value A: {valueA} Value B: {valueB}.");

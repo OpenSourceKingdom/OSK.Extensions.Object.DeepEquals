@@ -4,9 +4,13 @@ using System;
 
 namespace OSK.Extensions.Object.DeepEquals
 {
+    /// <summary>
+    /// A base class that provides a means of more easily creating a typed <see cref="DeepEqualityComparer{T}"/>
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class DeepEqualityComparer<T> : IDeepEqualityComparer<T>
     {
-        public abstract bool AreDeepEqual(DeepComparisonContext context, T a, T b);
+        #region IDeepEqualityComparer
 
         public bool AreDeepEqual(DeepComparisonContext context, object a, object b)
         {
@@ -25,5 +29,13 @@ namespace OSK.Extensions.Object.DeepEquals
         {
             return typeToCompare == typeof(T);
         }
+
+        #endregion
+
+        #region Helpers
+
+        public abstract bool AreDeepEqual(DeepComparisonContext context, T a, T b);
+
+        #endregion
     }
 }
