@@ -1,6 +1,8 @@
-﻿namespace OSK.Extensions.Object.DeepEquals.Ports
+﻿using OSK.Hexagonal.MetaData;
+
+namespace OSK.Extensions.Object.DeepEquals.Ports
 {
-    // Primary Port: Implemented Internally
+    [HexagonalPort(HexagonalPort.Primary)]
     public interface ICircularReferenceMonitor
     {
         bool AddReference(object parent, object child);

@@ -1,11 +1,13 @@
 ﻿using System;
 using OSK.Extensions.Object.DeepEquals.Models;
+using OSK.Hexagonal.MetaData;
 
 namespace OSK.Extensions.Object.DeepEquals.Ports
 {
     /// <summary>
     /// A comparer capable of performing a deep comparison between objects
     /// </summary>
+    [HexagonalPort(HexagonalPort.Primary)]
     public interface IDeepEqualityComparer
     {
         /// <summary>

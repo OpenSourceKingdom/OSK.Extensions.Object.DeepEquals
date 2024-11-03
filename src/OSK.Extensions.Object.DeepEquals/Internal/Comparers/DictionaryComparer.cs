@@ -24,7 +24,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 
             foreach (var key in a.Keys)
             {
-                if (b.Contains(key) && context.DeepComparisonService.AreDeepEqual(context, a[key], b[key]))
+                if (b.Contains(key) && context.AreDeepEqual(a[key], b[key]))
                 {
                     continue;
                 }

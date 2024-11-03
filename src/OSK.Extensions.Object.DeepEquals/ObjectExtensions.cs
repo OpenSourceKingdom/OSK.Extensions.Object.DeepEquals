@@ -14,7 +14,7 @@ namespace OSK.Extensions.Object.DeepEquals
         public static bool DeepEquals<T, U>(this T objA, U objB, DeepComparisonOptions comparisonOptionOverrides = null)
         {
             var comparisonContext = DeepEqualsConfiguration.GetComparisonContext(comparisonOptionOverrides);
-            return comparisonContext.DeepComparisonService.AreDeepEqual(comparisonContext, objA, objB);
+            return comparisonContext.AreDeepEqual(objA, objB);
         }
     }
 }

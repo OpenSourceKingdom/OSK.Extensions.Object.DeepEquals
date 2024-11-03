@@ -1,6 +1,8 @@
-﻿namespace OSK.Extensions.Object.DeepEquals.Ports
+﻿using OSK.Hexagonal.MetaData;
+
+namespace OSK.Extensions.Object.DeepEquals.Ports
 {
-    // Primary Port: Implemented Internally
+    [HexagonalPort(HexagonalPort.Primary)]
     public interface IObjectCache
     {
         void Add(object key, object value);

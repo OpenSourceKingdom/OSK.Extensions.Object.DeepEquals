@@ -46,6 +46,9 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         #region Helpers
 
+        public bool AreDeepEqual<T, U>(T a, U b)
+            => DeepComparisonService.AreDeepEqual(this, a, b);
+
         public void Fail(string message)
         {
             if (ExecutionOptions.ThrowOnFailure)

@@ -79,7 +79,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
 
         internal DeepComparisonContext Build(DeepComparisonContext previousContext)
         {
-            AddDeepDefaultComparers();
+            AddDefaultComparers();
 
             var executionOptions = GetExecutionOptions();
             var preserveCache = previousContext != null && executionOptions.PreserveCacheBetweenConfigurationChanges;
@@ -92,7 +92,6 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
             var comparisonService = preserveCache
                 ? previousContext.DeepComparisonService
                 : new DeepComparisonService(new DeepEqualityComparerProvider(_comparers));
-
 
             return new DeepComparisonContext(
                 propertyCache,
@@ -162,7 +161,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
             return stringComparisonOptions;
         }
 
-        private void AddDeepDefaultComparers()
+        private void AddDefaultComparers()
         {
             WithComparer(new BooleanComparer());
             WithComparer(new DateTimeComparer());

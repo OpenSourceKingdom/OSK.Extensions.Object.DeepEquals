@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
-using OSK.Extensions.Object.DeepEquals.Options;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 

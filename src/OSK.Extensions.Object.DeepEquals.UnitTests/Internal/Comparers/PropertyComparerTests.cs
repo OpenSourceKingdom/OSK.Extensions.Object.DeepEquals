@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Moq;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
-using OSK.Extensions.Object.DeepEquals.Options;
 using OSK.Extensions.Object.DeepEquals.UnitTests.Helpers;
 using Xunit;
 

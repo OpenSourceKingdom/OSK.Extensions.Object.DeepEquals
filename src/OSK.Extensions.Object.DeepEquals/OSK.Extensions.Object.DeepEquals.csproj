@@ -5,14 +5,20 @@
 
 		<RepositoryUrl>https://github.com/OpenSourceKingdom/OSK.Extensions.Object.DeepEquals</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
-		<Description>DeepEquals is a fast, flexible, and simple way of comparing objects deeply.</Description>
-		<PackageTags>OpenSourceKingdom, OpenSource, DeepEquals, Deep, Equals, Comparison, Compare, Equivalence, Equality, Extensions, Object</PackageTags>
+		<Description>DeepEquals is a fast, flexible, and simple way of comparing objects deeply in .NET</Description>
+		<PackageTags>OpenSourceKingdom, OpenSource, DeepEquals, Deep, Equal, Comparison, Compare, Equivalence, Equality, Extensions, Object, Generic, Fast, Check, Condition, Object</PackageTags>
 		<Authors>BlankDev117</Authors>
-		<Title>DeepEquals</Title>
+		<Title>OSK.Extensions.Object.DeepEquals</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+		<PackageReference Include="OSK.Hexagonal.MetaData" Version="0.0.1" />
+	</ItemGroup>
 
 </Project>

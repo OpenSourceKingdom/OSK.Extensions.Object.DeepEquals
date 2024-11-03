@@ -1,5 +1,8 @@
-﻿namespace OSK.Extensions.Object.DeepEquals.Ports
+﻿using OSK.Hexagonal.MetaData;
+
+namespace OSK.Extensions.Object.DeepEquals.Ports
 {
+    [HexagonalPort(HexagonalPort.Primary)]
     public interface IGenericEqualityComparer: IDeepEqualityComparer
     {
     }
