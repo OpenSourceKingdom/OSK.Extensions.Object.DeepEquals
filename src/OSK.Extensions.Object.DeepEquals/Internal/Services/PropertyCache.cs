@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using OSK.Extensions.Object.DeepEquals.Models;
 using OSK.Extensions.Object.DeepEquals.Ports;
@@ -38,7 +39,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Services
             }
 
             var bindingFlags = GetPropertyBindings(propertyComparison);
-            propertyInfos = type.GetProperties(bindingFlags);
+            propertyInfos = type.GetProperties(bindingFlags).Except(type.GetDefaultMembers().OfType<PropertyInfo>());
 
             _propertyCache[type] = propertyInfos;
 
