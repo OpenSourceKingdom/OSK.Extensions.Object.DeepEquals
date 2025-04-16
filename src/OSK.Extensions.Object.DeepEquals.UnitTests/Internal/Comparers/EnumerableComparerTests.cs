@@ -369,6 +369,84 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
             Assert.True(result);
         }
 
+        [Fact]
+        public void AreDeepEqual_Array_OrderNotEnforced_Unordered_DifferentObjectValues_ReturnsTrue()
+        {
+            // Arrange
+            var testA = new TestClass()
+            {
+                A = "Abc",
+                B = 123,
+                Ints = [4, 3, 2],
+                SubClass = new TestClass()
+                {
+                    A = "Cba",
+                    B = 3,
+                    Ints = null,
+                    SubClass = null
+                }
+            };
+            var testB = new TestClass()
+            {
+                A = "Noway",
+                B = 54321,
+                Ints = null,
+                SubClass = null
+            };
+            var cloneA = new TestClass()
+            {
+                A = "Abc",
+                B = 123,
+                Ints = [4, 3, 2],
+                SubClass = new TestClass()
+                {
+                    A = "Cba",
+                    B = 3,
+                    Ints = null,
+                    SubClass = null
+                }
+            };
+            var cloneB = new TestClass()
+            {
+                A = "Noway",
+                B = 54321,
+                Ints = null,
+                SubClass = null
+            };
+
+            var testSet1 = new[]
+            {
+                testA,
+                testB
+            };
+            var testSet2 = new[]
+            {
+                cloneB,
+                cloneA
+            };
+
+            var context = MockComparisonContext.SetupContext((_, objA, objB) =>
+            {
+                if (objA == testA || objA == cloneA)
+                {
+                    return objB == testA || objB == cloneA;
+                }
+                if (objA == testB || objA == cloneB)
+                {
+                    return objB == testB || objB == cloneB;
+                }
+
+                return false;
+            });
+
+            context.EnumerableComparisonOptions.EnforceEnumerableOrdering = false;
+
+            // Act
+            var result = _comparer.AreDeepEqual(context, testSet1, testSet2);
+
+            // Assert
+            Assert.True(result);
+        }
 
         #endregion
     }

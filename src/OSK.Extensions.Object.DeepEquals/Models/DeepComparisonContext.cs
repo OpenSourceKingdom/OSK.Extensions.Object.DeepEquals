@@ -23,6 +23,8 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         public IDeepComparisonService DeepComparisonService { get; }
 
+        public bool SuppressErrorThrow { get; set; }
+
         #endregion
 
         #region Constructors
@@ -51,7 +53,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         public void Fail(string message)
         {
-            if (ExecutionOptions.ThrowOnFailure)
+            if (!SuppressErrorThrow && ExecutionOptions.ThrowOnFailure)
             {
                 throw new DeepEqualityComparisonFailedException(message);
             }

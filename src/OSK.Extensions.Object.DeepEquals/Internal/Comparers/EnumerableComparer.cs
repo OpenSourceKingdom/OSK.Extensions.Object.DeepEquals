@@ -67,6 +67,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
             var enumeratorB = b.GetEnumerator();
             var bSize = 0;
 
+            context.SuppressErrorThrow = true;
             while (enumeratorB.MoveNext())
             {
                 bSize++;
@@ -76,9 +77,11 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
                     continue;
                 }
 
+                context.SuppressErrorThrow = false;
                 return false;
             }
 
+            context.SuppressErrorThrow = false;
             return tempList.Count == bSize;
         }
 

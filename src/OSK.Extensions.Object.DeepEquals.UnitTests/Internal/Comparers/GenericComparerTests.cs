@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Moq;
 using OSK.Extensions.Object.DeepEquals.Internal.Comparers;
 using OSK.Extensions.Object.DeepEquals.Ports;
@@ -77,6 +78,23 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
 
             // Assert
             Assert.Equal(expectedResult, result);
+        }
+
+        [Fact]
+        public void AreDeepEqual_ActionClass_ReturnsExpectedResult()
+        {
+            var actionClassA = new ActionClass()
+            {
+                Action = _ => Task.CompletedTask,
+                Action2 = _ => { }
+            };
+            var actionClassB = new ActionClass()
+            {
+                Action = _ => Task.CompletedTask,
+                Action2 = _ => { }
+            };
+
+            _comparer.AreDeepEqual(MockComparisonContext.SetupContext(), actionClassA, actionClassB);
         }
 
         #endregion
