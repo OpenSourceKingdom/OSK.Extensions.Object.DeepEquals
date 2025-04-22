@@ -23,7 +23,7 @@ namespace OSK.Extensions.Object.DeepEquals.Models
 
         public IDeepComparisonService DeepComparisonService { get; }
 
-        public bool SuppressErrorThrow { get; set; }
+        public bool SuppressErrorThrow { get; internal set; }
 
         #endregion
 
@@ -47,6 +47,17 @@ namespace OSK.Extensions.Object.DeepEquals.Models
         #endregion
 
         #region Helpers
+
+        public DeepComparisonContext CreateScopedContext()
+        {
+            return SuppressErrorThrow 
+                ? this
+                : new DeepComparisonContext(PropertyCache, ObjectCache, CircularReferenceMonitor, DeepComparisonService, 
+                StringComparisonOptions, EnumerableComparisonOptions, PropertyComparisonOptions, ExecutionOptions)
+                {
+                    SuppressErrorThrow = true
+                };
+        }
 
         public bool AreDeepEqual<T, U>(T a, U b)
             => DeepComparisonService.AreDeepEqual(this, a, b);
