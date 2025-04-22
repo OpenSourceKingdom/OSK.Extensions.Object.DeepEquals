@@ -22,7 +22,7 @@ namespace OSK.Extensions.Object.DeepEquals.Ports
         /// </summary>
         /// <param name="context">The context of the current deep comparison</param>
         /// <param name="a">The first object to compare</param>
-        /// <param name="b">The second object to compare against <see cref="a"/></param>
+        /// <param name="b">The second object to compare against</param>
         /// <returns>True/False for whether a deeply equals b</returns>
         bool AreDeepEqual(DeepComparisonContext context, object a, object b);
     }

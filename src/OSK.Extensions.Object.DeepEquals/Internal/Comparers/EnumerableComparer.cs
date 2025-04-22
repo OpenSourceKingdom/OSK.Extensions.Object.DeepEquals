@@ -67,12 +67,12 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
             var enumeratorB = b.GetEnumerator();
             var bSize = 0;
 
-            context.SuppressErrorThrow = true;
+            var scopedContext = context.CreateScopedContext();
             while (enumeratorB.MoveNext())
             {
                 bSize++;
 
-                if (tempList.Any(item => context.AreDeepEqual(item, enumeratorB.Current)))
+                if (tempList.Any(item => scopedContext.AreDeepEqual(item, enumeratorB.Current)))
                 {
                     continue;
                 }
@@ -81,7 +81,6 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
                 return false;
             }
 
-            context.SuppressErrorThrow = false;
             return tempList.Count == bSize;
         }
 
