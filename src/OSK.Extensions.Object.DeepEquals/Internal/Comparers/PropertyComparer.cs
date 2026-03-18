@@ -11,7 +11,7 @@ namespace OSK.Extensions.Object.DeepEquals.Internal.Comparers
 
         public bool CanCompare(Type type)
         {
-            return type.IsClass || type.IsValueType && !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System.");
+            return type.IsClass || (!type.IsEnum && type.IsValueType && !type.IsPrimitive && type.Namespace != null && !type.Namespace.StartsWith("System."));
         }
 
         public bool AreDeepEqual(DeepComparisonContext context, object a, object b)

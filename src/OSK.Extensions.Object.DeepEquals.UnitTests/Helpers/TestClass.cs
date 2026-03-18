@@ -11,5 +11,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Helpers
         public List<int> Ints { get; set; }
 
         public TestClass SubClass { get; set; }
+
+        public MockEnum MockEnum { get; set; }
     }
 }
