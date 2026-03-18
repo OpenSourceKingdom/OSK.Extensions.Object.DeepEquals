@@ -34,7 +34,7 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
         [InlineData(typeof(object), true)]
         [InlineData(typeof(Dictionary<string, string>), true)]
         [InlineData(typeof(MockStruct), true)]
-        [InlineData(typeof(MockEnum), true)]
+        [InlineData(typeof(MockEnum), false)]
         public void IsComparerType_TypeVariations_ReturnsExpectedResult(Type type, bool expectedResult)
         {
             // Arrange/Act
@@ -70,6 +70,8 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                     case TestClass testClass:
                         var b = (TestClass)objB;
                         return _propertyComparer.AreDeepEqual(c, testClass, b);
+                    case Enum enumA:
+                        return enumA.Equals((Enum)objB);
                     default:
                         return false;
                 }
@@ -90,7 +92,8 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                     A = "I",
                     B = 8,
                     Ints = new List<int>()
-                }
+                },
+                MockEnum = MockEnum.EpicTest
             };
             var testB = new TestClass()
             {
@@ -107,7 +110,8 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                     A = "I",
                     B = 8,
                     Ints = new List<int>()
-                }
+                },
+                MockEnum = MockEnum.EpicTest
             };
 
             // Act
@@ -159,7 +163,8 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                     A = "I",
                     B = 8,
                     Ints = new List<int>()
-                }
+                },
+                MockEnum = MockEnum.EpicTest
             };
             var testB = new TestClass()
             {
@@ -176,7 +181,8 @@ namespace OSK.Extensions.Object.DeepEquals.UnitTests.Internal.Comparers
                     A = "I",
                     B = 8,
                     Ints = new List<int>()
-                }
+                },
+                MockEnum = MockEnum.EpicTest
             };
 
             // Act

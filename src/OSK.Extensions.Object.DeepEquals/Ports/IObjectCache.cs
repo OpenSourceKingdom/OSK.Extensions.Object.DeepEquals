@@ -3,6 +3,7 @@
 namespace OSK.Extensions.Object.DeepEquals.Ports
 {
     [HexagonalPort(HexagonalPort.Primary)]
+    [HexagonalIntegration(HexagonalIntegrationType.LibraryProvided)]
     public interface IObjectCache
     {
         void Add(object key, object value);
