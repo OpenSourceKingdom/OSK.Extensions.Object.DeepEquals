@@ -8,6 +8,7 @@ namespace OSK.Extensions.Object.DeepEquals.Ports
     /// A comparer capable of performing a deep comparison between objects
     /// </summary>
     [HexagonalPort(HexagonalPort.Primary)]
+    [HexagonalIntegration(HexagonalIntegrationType.LibraryProvided, HexagonalIntegrationType.IntegrationOptional)]
     public interface IDeepEqualityComparer
     {
         /// <summary>
